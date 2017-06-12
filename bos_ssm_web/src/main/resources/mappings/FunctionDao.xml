@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tang.bos.dao.FunctionDao">
+
+    <resultMap id="functionResult" type="function">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="description" column="description"/>
+        <result property="page" column="page"/>
+        <result property="generatemeun" column="generatemeun"/>
+        <result property="zindex" column="zindex"/>
+
+        <association property="parent" column="pid" select="getFunctionById"/>
+        <collection property="children" column="children" select="getChildren"/>
+    </resultMap>
+
+    <sql id="functionCols">
+        f.id,
+        f.name,
+        f.code,
+        f.description,
+        f.page,
+        f.zindex,
+    </sql>
+
+    <select id="findAllParents" resultMap="functionResult">
+        SELECT * FROM t_function
+        WHERE pid IS NULL;
+    </select>
+
+    <select id="findMenus" resultMap="functionResult">
+        SELECT <include refid="functionCols"/> FROM t_function f
+        WHERE generatemeun=1;
+    </select>
+    
+    <select id="getFunctionById" resultMap="functionResult" parameterType="int">
+        SELECT * FROM t_function WHERE id=#{id}
+    </select>
+
+    <select id="getChildren" parameterType="int" resultMap="functionResult">
+        SELECT * FROM t_function WHERE pid=#{pid};
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

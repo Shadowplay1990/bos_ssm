@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tang.bos.dao.DecidedzoneDao">
+    <resultMap id="DzResult" type="decidedzone">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <association property="staff" column="staff_id" fetchType="eager"
+                     select="com.tang.bos.dao.StaffDao.findById"/>
+    </resultMap>
+
+    <sql id="DzColumns">
+        d.id,
+        d.staff_id,
+        d.name
+    </sql>
+
+    <select id="findPage" resultMap="DzResult">
+        SELECT <include refid="DzColumns"/>
+        FROM t_decidedzone d
+    </select>
+
+    <select id="findTotal" resultType="int">
+        SELECT count(*) FROM t_decidedzone d
+    </select>
+</mapper>

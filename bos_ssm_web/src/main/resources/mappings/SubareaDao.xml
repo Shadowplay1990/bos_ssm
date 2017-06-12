@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tang.bos.dao.SubareaDao">
+    <resultMap id="subareaMap" type="Subarea">
+        <id property="id" column="id"/>
+        <result property="addresskey" column="addresskey"/>
+        <result property="startnum" column="startnum"/>
+        <result property="endnum" column="endnum"/>
+        <result property="single" column="single"/>
+        <result property="position" column="position"/>
+        <association property="region" column="region_id"
+                     select="com.tang.bos.dao.RegionDao.findById"/>
+    </resultMap>
+
+    <sql id="subareaCol">
+        s.id,
+        s.addresskey,
+        s.startnum,
+        s.endnum,
+        s.single,
+        s.position,
+        s.region_id
+    </sql>
+    <select id="findPage" resultMap="subareaMap" parameterType="Subarea">
+        SELECT
+        <include refid="subareaCol"/>
+        FROM t_subarea s
+        INNER JOIN t_region r ON 1=1
+        <trim prefix="and" prefixOverrides="or">
+            <if test="region.province!='' and region.province!=null">
+                OR r.priovince LIKE concat('%',#{region.province},'%')
+            </if>
+            <if test="region.city!='' and region.city!=null">
+                OR r.city LIKE concat('%',#{region.city},'%')
+            </if>
+            <if test="region.district!='' and region.district!=null">
+                OR r.district LIKE concat('%',#{region.district},'%')
+            </if>
+            <if test="addresskey!='' and addresskey!=null">
+                OR s.addresskey LIKE concat('%',#{addresskey},'%')
+            </if>
+        </trim>
+        AND s.region_id=r.id
+    </select>
+
+    <select id="findByPage" resultMap="subareaMap">
+        SELECT
+        <include refid="subareaCol"/>
+        FROM t_subarea s
+    </select>
+
+    <select id="findCount" resultType="int">
+        SELECT count(*) FROM t_subarea
+    </select>
+
+    <insert id="addSub" useGeneratedKeys="true" keyColumn="id" parameterType="Subarea">
+        INSERT INTO t_subarea(addresskey,region_id,startnum,endnum,single,position)
+        VALUES(#{addresskey},#{region.id},#{startnum},#{endnum},#{single},#{position})
+    </insert>
+
+    <update id="editSub">
+        UPDATE t_subarea
+        <set>
+            <if test="subarea.region.id!=null and subarea.region.id!=''">
+                region_id=#{subarea.region.id},
+            </if>
+            <if test="subarea.addresskey!=null and subarea.addresskey!=''">
+                addresskey=#{subarea.addresskey},
+            </if>
+            <if test="subarea.startnum!=null and subarea.startnum!=''">
+                startnum=#{subarea.startnum},
+            </if>
+            <if test="subarea.endnum!=null and subarea.endnum!=''">
+                endnum=#{subarea.endnum},
+            </if>
+            <if test="subarea.single!=null and subarea.single!=''">
+                single=#{subarea.single},
+            </if>
+            <if test="subarea.position!=null and subarea.position!=''">
+                position=#{subarea.position},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="del" parameterType="int">
+        DELETE FROM t_subarea WHERE id=#{id}
+    </delete>
+
+    <select id="findAll" resultMap="subareaMap">
+        SELECT <include refid="subareaCol"/>
+        FROM t_subarea s
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tang.bos.dao.RegionDao">
+    <resultMap id="regionResultMap" type="Region">
+        <id property="id" column="id"/>
+        <result property="province" column="priovince"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="postcode" column="postcode"/>
+        <result property="shortcode" column="shortcode"/>
+        <result property="citycode" column="citycode"/>
+    </resultMap>
+
+    <resultMap id="regionMap2" type="Region">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <sql id="regionColumns">
+        r.id,
+        r.priovince,
+        r.city,
+        r.district,
+        r.postcode,
+        r.shortcode,
+        r.citycode
+    </sql>
+
+    <select id="listByPage" resultMap="regionResultMap">
+        SELECT <include refid="regionColumns"/>
+        FROM t_region r
+    </select>
+
+    <insert id="saveRegion" useGeneratedKeys="true" parameterType="Region" keyProperty="id">
+        INSERT INTO t_region VALUES
+        (#{id},#{province},#{city},#{district},#{postcode},#{shortcode},#{citycode})
+    </insert>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM t_region
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="regionResultMap">
+        SELECT <include refid="regionColumns"/>
+        FROM t_region r
+        WHERE id=#{id}
+    </select>
+
+    <select id="findNameAndId" resultMap="regionMap2">
+        SELECT r.id, r.shortcode FROM t_region r
+    </select>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_region WHERE id=#{id}
+    </delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

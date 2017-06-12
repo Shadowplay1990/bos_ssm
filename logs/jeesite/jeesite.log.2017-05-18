@@ -1,0 +1,6 @@
+2017-05-18 11:20:28,082 [http-bio-8080-exec-5] WARN  [org.springframework.web.servlet.PageNotFound] - Request method 'GET' not supported
+2017-05-18 11:43:53,117 [http-bio-8080-exec-4] WARN  [org.springframework.web.servlet.PageNotFound] - Request method 'GET' not supported
+2017-05-18 11:44:31,664 [http-bio-8080-exec-5] WARN  [org.springframework.web.servlet.PageNotFound] - Request method 'GET' not supported
+2017-05-18 11:45:00,124 [http-bio-8080-exec-9] WARN  [org.springframework.web.servlet.PageNotFound] - Request method 'GET' not supported
+2017-05-18 12:58:06,933 [http-bio-8080-exec-1] WARN  [org.springframework.web.servlet.PageNotFound] - Request method 'GET' not supported
+2017-05-18 17:44:34,677 [http-bio-8080-exec-10] WARN  [org.springframework.web.servlet.PageNotFound] - Request method 'GET' not supported
